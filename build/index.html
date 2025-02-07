@@ -54,51 +54,38 @@
         <div class="columns is-centered">
           <div class="column has-text-centered">
             <h1 class="title is-1 publication-title">
-              LiveCodeBench: Holistic and Contamination-Free Evaluation of
-              Large Language Models for Code
+              CodeIF: Benchmarking the Instruction-Following Capabilities of Large Language Models for Code Generation
             </h1>
             <div class="is-size-5 publication-authors">
               <span class="author-block">
-                <a href="https://naman-ntc.github.io/">Naman Jain</a><sup>1</sup>,</span>
+                <a href="https://github.com/lin-rany/codeIF">Kaiwen Yan</a>,</span>
               <span class="author-block">
-                <a href="https://kinghan.info/">King Han</a><sup>1</sup>,</span>
+                <a href="https://scholar.google.com/citations?user=eynbo4cAAAAJ&hl=zh-CN">Hongcheng Guo</a><sup>1</sup>,</span>
               <span class="author-block">
-                <a href="https://minimario.github.io/">Alex Gu</a><sup>2</sup>,</span>
+                <a href="https://openreview.net/profile?id=~Xuanqing_Shi1">Xuanqing Shi</a><sup>2</sup>,</span>
               <span class="author-block">
-                <a href="https://wending.dev/">Wen-Ding Li</a><sup>3</sup>,</span>
-              <span class="author-block">
-                <a href="https://fanjia-yan.github.io/">Fanjia Yan</a><sup>1</sup>,</span>
-              <span class="author-block">
-                <a href="https://tianjunz.github.io/">Tianjun Zhang</a><sup>1</sup>,</span>
-              <span class="author-block">
-                <a href="https://www.sidaw.xyz/">Sida Wang</a>,</span>
-              <span class="author-block">
-                <a href="https://people.csail.mit.edu/asolar/">Armando Solar-Lezama</a><sup>2</sup>,</span>
-              <span class="author-block">
-                <a href="https://people.eecs.berkeley.edu/~ksen/">Koushik Sen</a><sup>1</sup>,</span>
-              <span class="author-block">
-                <a href="https://people.eecs.berkeley.edu/~istoica/">Ion Stoica</a><sup>1</sup></span>
+                <a href="https://openreview.net/profile?id=~Zhoujun_Li1">Zhoujun Li</a><sup>1</sup>,</span>
+                  
             </div>
-
             <div class="is-size-5 publication-authors">
-              <span class="author-block"><sup>1</sup>UC Berkeley</span>
-              <span class="author-block"><sup>2</sup>MIT</span>
-              <span class="author-block"><sup>3</sup>Cornell University</span>
+              <span class="author-block"><sup>1</sup>Beihang University</span>
+              <span class="author-block"><sup>2</sup>Tsinghua University</span>
             </div>
+            
 
             <div class="column has-text-centered">
               <div class="publication-links">
                 <!-- PDF Link. -->
                 <span class="link-block">
-                  <a href="https://arxiv.org/abs/2403.07974" class="external-link button is-normal is-rounded is-dark">
+                  <a href="https://github.com/lin-rany/codeIF" class="external-link button is-normal is-rounded is-dark">
                     <span class="icon">
                       <i class="fas fa-file-pdf"></i>
                     </span>
-                    <span>Paper</span>
+                    <span>Paper TODO</span>
                   </a>
                 </span>
                 <span class="link-block">
-                  <a href="https://github.com/LiveCodeBench/LiveCodeBench"
+                  <a href="https://github.com/lin-rany/codeIF"
                     class="external-link button is-normal is-rounded is-dark">
                     <span class="icon">
                       <i class="fab fa-github"></i>
@@ -108,7 +95,7 @@
                 </span>
                 <!-- Dataset Link. -->
                 <span class="link-block">
-                  <a href="https://huggingface.co/livecodebench/"
+                  <a href="https://huggingface.co/datasets/linrany/CodeIF"
                     class="external-link button is-normal is-rounded is-dark">
                     <span class="icon">
                       <i class="far fa-images"></i>
@@ -133,52 +120,41 @@
     </div>
   </section>
 
-  <section class="hero teaser">
+  <!-- <section class="hero teaser">
     <div class="container is-max-desktop">
       <div class="hero-body">
         <div class="columns is-centered">
-          <!-- center the image -->
           <img src="./images/LCB_holistic_tasks.png" alt="Teaser" class="teaser-image center" width="80%" />
         </div>
 
         <h2 class="subtitle has-text-centered">
-          <span class="dnerf">LiveCodeBench</span> collects problems from periodic contests on <span
-            class="dnerf">LeetCode</span>, <span class="dnerf">AtCoder</span>, and <span class="dnerf">Codeforces</span>
+          <span class="dnerf">CodeIF</span> collects problems from periodic contests on <span
+            class="dnerf">CodeIF</span>, <span class="dnerf">AtCoder</span>, and <span class="dnerf">Codeforces</span>
           platforms and uses them for constructing a holistic benchmark for evaluating Code LLMs across variety of
           code-related scenarios continuously over time.
         </h2>
 
       </div>
     </div>
-  </section>
+  </section> -->
 
 
   <section class="section">
     <div class="container is-max-desktop">
-      <!-- Abstract. -->
       <div class="columns is-centered has-text-centered">
         <div class="column is-four-fifths">
           <h2 class="title is-3">Introduction</h2>
           <div class="content has-text-justified">
             <p>
-              LiveCodeBench is a holistic and contamination-free evaluation benchmark
-              of LLMs for code that continuously collects new problems over time.
-              Particularly, LiveCodeBench also focuses on broader code-related capabilities,
-              such as self-repair, code execution, and test output prediction,
-              beyond mere code generation. Currently, LiveCodeBench hosts over
-              three hundred high-quality coding problems published between May
-              2023 and February 2024. We evaluate 29 LLMs on LiveCodeBench
-              scenarios and present novel empirical findings not revealed in
-              prior benchmarks.
+              With the rapid advancement of Large Language Models (LLMs), the demand for robust instruction-following capabilities in code generation tasks has grown significantly. Code generation not only facilitates faster prototyping and automated testing, but also augments developer efficiency through improved maintainability and reusability of code. In this paper, we introduce CodeIF, the first benchmark specifically designed to assess the abilities of LLMs to adhere to task-oriented instructions within diverse code generation scenarios. CodeIF encompasses a broad range of tasks, including function synthesis, error debugging, algorithmic refactoring, and code explanation, thereby providing a comprehensive suite to evaluate model performance across varying complexity levels and programming domains. We conduct extensive experiments with LLMs, analyzing their strengths and limitations in meeting the demands of these tasks. The experimental results offer valuable insights into how well current models align with human instructions, as well as the extent to which they can generate consistent, maintainable, and contextually relevant code. Our findings not only underscore the critical role that instruction-following LLMs can play in modern software development, but also illuminate pathways for future research aimed at enhancing their adaptability, reliability, and overall effectiveness in automated code generation.
             </p>
           </div>
         </div>
       </div>
-      <!--/ Abstract. -->
     </div>
   </section>
 
-  <section class="section">
+  <!-- <section class="section">
     <div class="container is-max-desktop">
       <div class="columns is-centered has-text-centered">
         <div class="column is-four-fifths">
@@ -190,7 +166,7 @@
               with a training-cutoff date <span class="dnerf">D</span>, we can evaluate it on problems released after
               <span class="dnerf">D</span> to measure its generalization on <i>unseen</i> problems.
             </p>
-            <!-- side by side images-->
+          
             <div class="columns is-centered">
               <img src="./images/contamination1.png" alt="Code Generation Live Evaluation" class="teaser-image"
                 width="48%" class="center" />
@@ -210,9 +186,9 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> -->
 
-  <section class="section">
+  <!-- <section class="section">
     <div class="container is-max-desktop">
       <div class="columns is-centered has-text-centered">
         <div class="column is-four-fifths">
@@ -237,9 +213,6 @@
                 height="44%" class="center" />
               <img src="./images/lc_barchart.png" alt="Open vesus Closed Models" class="teaser-image" width="48%"
                 class="center" />
-
-              <!-- <img src="./images/lcb_vs_he.png" alt="HumanEval Overfitting" class="teaser-image" width="55%"
-                height="55%" class="center" /> -->
             </div>
             <p>
               We compare the performance of open access models with closed api-access models on <span
@@ -252,9 +225,9 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> -->
 
-  <section class="section">
+  <!-- <section class="section">
     <div class="container is-max-desktop">
       <div class="columns is-centered has-text-centered">
         <div class="column is-four-fifths">
@@ -286,9 +259,9 @@
       </div>
 
     </div>
-  </section>
+  </section> -->
 
-  <section class="section">
+  <!-- <section class="section">
     <div class="container is-max-desktop">
       <div class="columns is-centered has-text-centered">
         <div class="column is-four-fifths">
@@ -316,9 +289,9 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> -->
 
-  <section class="section">
+  <!-- <section class="section">
     <div class="container is-max-desktop">
       <div class="columns is-centered has-text-centered">
         <div class="column is-four-fifths">
@@ -334,7 +307,7 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> -->
 
 
 
@@ -342,16 +315,12 @@
   <section class="section" id="BibTeX">
     <div class="container is-max-desktop content">
       <h2 class="title">BibTeX</h2>
-      <pre><code>@article{jain2024livecodebench,
-    title={LiveCodeBench: Holistic and Contamination Free Evaluation of Large Language Models for Code},
-    author={Jain, Naman and Han, King and Gu, Alex and Li, Wen-Ding and Yan, Fanjia and Zhang, Tianjun and Wang, Sida and Solar-Lezama, Armando and Sen, Koushik and Stoica, Ion},
-    journal={arXiv preprint arXiv:2403.07974},
-    year={2024}
+      <pre><code>TODO
 }</code></pre>
     </div>
   </section>
 
-  <footer class="footer">
+  <!-- <footer class="footer">
     <div class="container">
 
       <div class="columns is-centered">
@@ -377,7 +346,7 @@
         </div>
       </div>
     </div>
-  </footer>
+  </footer> -->
 </body>
 
 </html>
