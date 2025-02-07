@@ -46,14 +46,14 @@ const LeaderboardTabs = () => {
   return (
     <div className="tabs-container">
       <ul className={`tabs ${isMobile ? 'mobile' : ''}`}>
-        <li className={activeTab === 'tab1' ? 'is-active' : ''} onClick={() => setActiveTab('tab1')}><a>Code Generation</a></li>
+        <li className={activeTab === 'tab1' ? 'is-active' : ''} onClick={() => setActiveTab('tab1')}><a>Code Generation111</a></li>
         <li className={activeTab === 'tab2' ? 'is-active' : ''} onClick={() => setActiveTab('tab2')}><a>Self Repair</a></li>
         <li className={activeTab === 'tab3' ? 'is-active' : ''} onClick={() => setActiveTab('tab3')}><a>Test11 Output Prediction</a></li>
         <li className={activeTab === 'tab4' ? 'is-active' : ''} onClick={() => setActiveTab('tab4')}><a>Code Execution</a></li>
       </ul>
       <div className="tab-content">
         {renderLeaderboard()}
-      </div>
+      </div> 
     </div>
   );
 };
