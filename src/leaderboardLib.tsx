@@ -7,7 +7,7 @@ function mean(array: Array<number>) {
 }
 
 function formatNumber(number: number) {
-  return Number(number.toFixed(1))
+  return Number(number.toFixed(3))
 }
 
 /**
@@ -38,65 +38,97 @@ function formatNumber(number: number) {
  *     )
  * ```
  */
+// function get_pass_at_1(
+//   results_df: Array<any>,
+//   model: string,
+//   start: number,
+//   end: number
+// ) {
+//   // model and date filter
+//   const results = results_df.filter(
+//     (result) =>
+//       result["model"] === model &&
+//       result["date"] >= start &&
+//       result["date"] <= end
+//   )
+
+//   const average_pass = formatNumber(
+//     mean(results.map((result) => result["pass@1"]))
+//   )
+//   const easy_pass = formatNumber(
+//     mean(
+//       results
+//         .filter((result) => result["difficulty"] === "easy")
+//         .map((result) => result["pass@1"])
+//     )
+//   )
+//   const medium_pass = formatNumber(
+//     mean(
+//       results
+//         .filter((result) => result["difficulty"] === "medium")
+//         .map((result) => result["pass@1"])
+//     )
+//   )
+//   const hard_pass = formatNumber(
+//     mean(
+//       results
+//         .filter((result) => result["difficulty"] === "hard")
+//         .map((result) => result["pass@1"])
+//     )
+//   )
+
+//   const exec_pass = formatNumber(
+//     mean(results.map((result) => result["Pass@1"]))
+//   )
+
+//   const cot_pass = formatNumber(
+//     mean(results.map((result) => result["Pass@1-COT"]))
+//   )
+
+//   // console.log("COT PASS: ", cot_pass, cot_pass != undefined, cot_pass != null, cot_pass.toString() != "NaN")
+
+//   return {
+//     average_pass,
+//     easy_pass,
+//     medium_pass,
+//     hard_pass,
+//     exec_pass,
+//     cot_pass,
+//   }
+// }
 function get_pass_at_1(
   results_df: Array<any>,
   model: string,
-  start: number,
-  end: number
+  type: string
 ) {
   // model and date filter
   const results = results_df.filter(
     (result) =>
-      result["model"] === model &&
-      result["date"] >= start &&
-      result["date"] <= end
+      result["model"] === model
   )
 
-  const average_pass = formatNumber(
-    mean(results.map((result) => result["pass@1"]))
+  const CCS = formatNumber(
+    mean(results.map((result) => result[type+"_CCS"]))
   )
-  const easy_pass = formatNumber(
-    mean(
-      results
-        .filter((result) => result["difficulty"] === "easy")
-        .map((result) => result["pass@1"])
-    )
+  const SS = formatNumber(
+    mean(results.map((result) => result[type+"_SS"]))
   )
-  const medium_pass = formatNumber(
-    mean(
-      results
-        .filter((result) => result["difficulty"] === "medium")
-        .map((result) => result["pass@1"])
-    )
+  const RS = formatNumber(
+    mean(results.map((result) => result[type+"_RS"]))
   )
-  const hard_pass = formatNumber(
-    mean(
-      results
-        .filter((result) => result["difficulty"] === "hard")
-        .map((result) => result["pass@1"])
-    )
-  )
-
-  const exec_pass = formatNumber(
-    mean(results.map((result) => result["Pass@1"]))
-  )
-
-  const cot_pass = formatNumber(
-    mean(results.map((result) => result["Pass@1-COT"]))
+  const CS = formatNumber(
+    mean(results.map((result) => result[type+"_CS"]))
   )
 
   // console.log("COT PASS: ", cot_pass, cot_pass != undefined, cot_pass != null, cot_pass.toString() != "NaN")
 
   return {
-    average_pass,
-    easy_pass,
-    medium_pass,
-    hard_pass,
-    exec_pass,
-    cot_pass,
+    CS,
+    SS,
+    RS,
+    CCS
   }
 }
-
 /**
  *
  * ```python
@@ -128,68 +160,73 @@ function get_pass_at_1(
  * )
  * ```
  */
+// function getLeaderboard(
+//   performances: Array<any>,
+//   models: Array<any>,
+//   start: number,
+//   end: number
+// ) {
+//   return models
+//     // .filter((model) => model.release_date)
+//     .map((model) => {
+//       const { CCS } = get_pass_at_1(
+//         performances,
+//         model.model_repr,
+//         start,
+//         end
+//       )
+      
+//       let output = {
+//         Model: model.model_repr,
+//         // "Estimated Cutoff For codeIF":
+//         //   "Estimated Cutoff For codeIF: " + new Date(model.release_date).toLocaleDateString(),
+//         "Contaminated":false,
+//         "CCS": CCS.toString() === "NaN"? -1 : CCS,
+//       }
+//       return output
+      
+//     })
+//     .sort((a, b) => b["CCS"] - a["CCS"])
+//     .reduce(
+//       (
+//         acc: {
+//           results: Array<typeof model & { Rank: number | null }>
+//           rank: number
+//         },
+//         model
+//       ) => {
+//         let rank = null
+//         acc.results.push({
+//           Rank: rank,
+//           ...model,
+//         })
+//         return acc
+//       },
+//       { results: [], rank: 1 }
+//     ).results
+// }
+
 function getLeaderboard(
   performances: Array<any>,
   models: Array<any>,
-  start: number,
-  end: number
+  type: string
 ) {
   return models
-    .filter((model) => model.release_date)
     .map((model) => {
-      const { average_pass, easy_pass, medium_pass, hard_pass, exec_pass, cot_pass } = get_pass_at_1(
-        performances,
-        model.model_repr,
-        start,
-        end
-      )
-      if (performances[0].hasOwnProperty("Pass@1-COT")) {
-        let output = {
-          Model: model.model_repr,
-          "Estimated Cutoff For LiveCodeBench":
-            "Estimated Cutoff For LiveCodeBench: " + new Date(model.release_date).toLocaleDateString(),
-          Contaminated: model.release_date >= start,
-          "Pass@1": cot_pass.toString() === "NaN" ? -1 : cot_pass,
-          "Pass@1 (no COT)": exec_pass.toString() === "NaN" ? -1 : exec_pass,
-        }
-        return output
-      }
-      else {
-        let output = {
-          Model: model.model_repr,
-          "Estimated Cutoff For LiveCodeBench":
-            "Estimated Cutoff For LiveCodeBench: " + new Date(model.release_date).toLocaleDateString(),
-          Contaminated: model.release_date >= start,
-          "Pass@1": average_pass.toString() === "NaN" ? -1 : average_pass,
-          "Easy-Pass@1": easy_pass.toString() === "NaN" ? -1 : easy_pass,
-          "Medium-Pass@1": medium_pass.toString() === "NaN" ? -1 : medium_pass,
-          "Hard-Pass@1": hard_pass.toString() === "NaN" ? -1 : hard_pass,
-        }
-        return output
-      }
+      const { CS,SS,RS,CCS } = get_pass_at_1(performances, model.model_repr,type);
+      return {
+        Model: model.model_name,
+        CS: isNaN(CS)? -1 : CS,
+        SS: isNaN(SS)? -1 : SS,
+        RS: isNaN(RS)? -1 : RS,
+        CCS: isNaN(CCS) ? -1 : CCS,
+      };
     })
-    .sort((a, b) => b["Pass@1"] - a["Pass@1"])
-    .reduce(
-      (
-        acc: {
-          results: Array<typeof model & { Rank: number | null }>
-          rank: number
-        },
-        model
-      ) => {
-        let rank = null
-        if (!model.Contaminated) {
-          rank = acc.rank
-          acc.rank += 1
-        }
-        acc.results.push({
-          Rank: rank,
-          ...model,
-        })
-        return acc
-      },
-      { results: [], rank: 1 }
-    ).results
+    .sort((a, b) => b["CS"] - a["CS"])
+    .map((item, index) => ({      // 添加 rank 字段
+      ...item,
+      Rank: index + 1  // 排名从 1 开始
+  }));
 }
 
 function getDateMarksFromModels(models: Array<any>) {
@@ -222,7 +259,7 @@ function getDateMarksFromTimestamps(timestamps: Array<number>) {
   }))
 }
 
-function getColumnDefs(columnNames: Array<string>, modelsDict: any) {
+function getColumnDefs(columnNames: Array<string>) {
   // Format the columns into array of { field: "column_name" }
   return columnNames
     .map((column_name) => {
@@ -241,19 +278,19 @@ function getColumnDefs(columnNames: Array<string>, modelsDict: any) {
             cellClass: 'suppress-movable-col',
             flex: 2,
             tooltipField: "Estimated Cutoff For LiveCodeBench",
-            cellRenderer: (params: any) => {
-              return modelsDict[params.value].link ? (
-                <a
-                  href={modelsDict[params.value].link}
-                  target="_blank"
-                  className={styles.leaderboardModelLink}
-                >
-                  {params.value}
-                </a>
-              ) : (
-                params.value
-              )
-            },
+            // cellRenderer: (params: any) => {
+            //   return modelsDict[params.value].link ? (
+            //     <a
+            //       href={modelsDict[params.value].link}
+            //       target="_blank"
+            //       className={styles.leaderboardModelLink}
+            //     >
+            //       {params.value}
+            //     </a>
+            //   ) : (
+            //     params.value
+            //   )
+            // },
           }
 
         case "Estimated Cutoff For LiveCodeBench":
@@ -321,5 +358,13 @@ function getColumnDefs(columnNames: Array<string>, modelsDict: any) {
     })
     .filter((columnDef) => columnDef !== null)
 }
+// function getColumnDefs(columnNames: Array<string>) {
+//   return columnNames.map((column_name) => ({
+//     field: column_name,
+//     flex: column_name === "Model" ? 2 : 1, // 仅保留基础列配置
+//     suppressMovable: true,
+//     cellClass: 'suppress-movable-col',
+//   }));
+// }
 
 export { getDateMarksFromTimestamps, getLeaderboard, getColumnDefs }

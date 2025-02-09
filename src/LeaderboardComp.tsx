@@ -27,9 +27,12 @@ const FONT_FAMILY = "'JetBrains Mono', monospace"
 
 const Leaderboard = React.memo(function LeaderboardComponent(props: any) {
   // args from Streamlit
-  let args = props.args;
+  // let args = props.args;
+  const { args, type }=props;
+  console.log(type)
   const { performances, models, date_marks } = args;
-  console.log(performances);
+  // console.debug("args", args);
+  // console.log(performances);
 
   const [isMobileCompressed, setIsMobileCompressed] = useState(window.innerWidth < 768);
 
@@ -65,40 +68,6 @@ const Leaderboard = React.memo(function LeaderboardComponent(props: any) {
     dateMarks[dateMarks.length - 1].value,
   ])
 
-
-  const dateSliderHandleChange = (
-    event: Event,
-    newValue: number | number[]
-  ) => {
-    const newValueArray = newValue as number[]
-    setDateStartAndEnd(newValueArray)
-
-    const newDf = getLeaderboard(
-      performances,
-      models,
-      newValueArray[0],
-      newValueArray[1]
-    )
-
-    const newRowData: any[] = []
-
-    const res = (gridRef.current as any).api.forEachNode(function (node: any) {
-      // Identify by the "Model" field
-      const dfData = newDf.find((row) => row["Model"] === node.data["Model"])!
-
-      const newData = node.data
-      for (const key in dfData) {
-        newData[key] = dfData[key as keyof typeof dfData]
-      }
-
-      newRowData.push(newData)
-    })
-
-    const resTransaction = (gridRef.current as any).api.applyTransaction({
-      update: newRowData,
-    })
-  }
-
   function dateLabelFormat(value: number) {
     const index = dateMarks.findIndex((mark) => mark.value === value)
     return dateMarks[index].label
@@ -106,53 +75,36 @@ const Leaderboard = React.memo(function LeaderboardComponent(props: any) {
 
   const dateAriaText = dateLabelFormat
 
-  // ********* AgGrid *********
-
-  // const leaderboard = getLeaderboard(
-  //   performances,
-  //   models,
-  //   dateStartAndEnd[0],
-  //   dateStartAndEnd[1]
-  // )
 
   const leaderboard = useMemo(() => {
+    // debugger;
     return getLeaderboard(
       performances,
       models,
-      dateStartAndEnd[0],
-      dateStartAndEnd[1]
+      type
     );
   }, [performances, models, dateStartAndEnd]);
-
-  if (isMobileCompressed) {
-    // remove columns from leaderboard
-    // remove Easy-Pass@1, Medium-Pass@1, Hard-Pass@1
-
-    // will delete throw error if column not found
-
-    leaderboard.forEach((row: any) => {
-      delete row["Easy-Pass@1"];
-      delete row["Medium-Pass@1"];
-      delete row["Hard-Pass@1"];
-      delete row["Pass@1 (no COT)"];
-    });
-
-  }
-  // console.log(leaderboard)
+  console.log(leaderboard);
+  
 
 
   const numProblems = performances.filter(
     (result: any) =>
-      result["model"] === "GPT-4O-2024-05-13" &&
-      result["date"] >= dateStartAndEnd[0] &&
-      result["date"] <= dateStartAndEnd[1]
+      result["model"] === "GPT-4O-2024-05-13"
   ).length;
 
 
   // df is an array of objects
   // Get the columns of df
   const columnNames = useMemo(() => {
-    return Object.keys(leaderboard[0])
+    console.log(`columnNames columnNames leaderboard: ${leaderboard}`);
+    const keys = Object.keys(leaderboard[0]);
+
+    // 移除 'Rank' 如果已经存在
+    const filteredKeys = keys.filter(key => key !== 'Rank');
+  
+    // 将 'Rank' 添加到数组的第一个位置
+    return ['Rank', ...filteredKeys];
   }, [leaderboard]);
 
   // Object.keys(leaderboard[0])
@@ -169,6 +121,7 @@ const Leaderboard = React.memo(function LeaderboardComponent(props: any) {
         params.data["Contaminated"],
     }
   }, [])
+  // const rowClassRules = {}
 
   const gridRef = useRef()
   const [rowData, setRowData] = useState(leaderboard)
@@ -179,12 +132,12 @@ const Leaderboard = React.memo(function LeaderboardComponent(props: any) {
   }, [leaderboard]);
 
   const [columnDefs, setColumnDefs] = useState(
-    getColumnDefs(columnNames, modelsDict)
+    getColumnDefs(columnNames)
   )
 
   useEffect(() => {
     // console.log('Component re-rendered due to changes in column:', columnNames, modelsDict);
-    setColumnDefs(getColumnDefs(columnNames, modelsDict));
+    setColumnDefs(getColumnDefs(columnNames));
   }, [columnNames, modelsDict]);
 
 
@@ -207,6 +160,7 @@ const Leaderboard = React.memo(function LeaderboardComponent(props: any) {
     () => ({
       height: `${Math.min(42 * rowData.length, 1000)}px`, // Adjust 600 to your desired max height
       // height: "100%",
+      // width: "100%", // 新增强制宽度
       "--ag-font-family": FONT_FAMILY,
       // minWidth: "760px",
       // maxWidth: "100%",
@@ -223,22 +177,22 @@ const Leaderboard = React.memo(function LeaderboardComponent(props: any) {
   }
 
 
-  let message = `${numProblems} problems selected in the current time window.`;
+  // let message = `${numProblems} problems selected in the current time window.`;
+  let message = ``;
 
-  if (numProblems === 0) {
-    message = "No problems selected in the current time window. Please select a different time window. ";
-  }
-  else if (numProblems < 100) {
-    message += " Less than 100 problems selected. We recommend a larger time-window to get a more accurate leaderboard.";
-  }
-  else {
-    message += "You can change start or end date to change the time window.";
-  }
+  // if (numProblems === 0) {
+  //   message = "No problems selected in the current time window. Please select a different time window. ";
+  // }
+  // else if (numProblems < 100) {
+  //   message += " Less than 100 problems selected. We recommend a larger time-window to get a more accurate leaderboard.";
+  // }
+  // else {
+  //   message += "You can change start or end date to change the time window.";
+  // }
 
-  message += "<br><br>We estimate cutoff dates based on release date and performance variation. Models highlighted in red are likely contaminated on some fraction of the problems in the given time-window. Feel free to adjust the slider to see the leaderboard at different time windows. Please offer feedback if you find any issues!"
+  // message += "<br><br>We estimate cutoff dates based on release date and performance variation. Models highlighted in red are likely contaminated on some fraction of the problems in the given time-window. Feel free to adjust the slider to see the leaderboard at different time windows. Please offer feedback if you find any issues!"
 
-  message += "<br><br>Announcements: <br>1. We have made revisions to our official autograder, fixing some unhandled cases. In case you are performing local evaluations, please use the latest codebase. <br>2. We have been introducing larger fraction of difficult problems for the more recent releases in lines with model capability improvements. A drop in performance in the later months is expected."
-
+  // message += "<br><br>Announcements: <br>1. We have made revisions to our official autograder, fixing some unhandled cases. In case you are performing local evaluations, please use the latest codebase. <br>2. We have been introducing larger fraction of difficult problems for the more recent releases in lines with model capability improvements. A drop in performance in the later months is expected."
 
 
   return (
@@ -255,7 +209,7 @@ const Leaderboard = React.memo(function LeaderboardComponent(props: any) {
         </div>
 
 
-        <Box sx={{ width: "100%" }} px={6} pt={5} pb={2}>
+        {/* <Box sx={{ width: "100%" }} px={6} pt={5} pb={2}>
 
           <Grid container justifyContent="center">
             <Grid item xs={12}>
@@ -274,11 +228,12 @@ const Leaderboard = React.memo(function LeaderboardComponent(props: any) {
               />
             </Grid>
           </Grid>
-        </Box>
+        </Box> */}
       </ThemeProvider>
       <div
         style={{
-          display: numProblems === 0 ? "none" : "flex"
+          // display: numProblems === 0 ? "none" : "flex"
+          display: "flex"
           ,
           flexDirection: "column",
           alignItems: "center",

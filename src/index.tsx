@@ -8,6 +8,9 @@ import mockDataGen from "./mocks/performances_generation.json"
 import mockDataRep from "./mocks/performances_repair.json"
 import mockDataTest from "./mocks/performances_testgen.json"
 import mockDataExec from "./mocks/performances_execution.json"
+import mockDataCodeIF from "./mocks/model_raw_data.json"
+import mockDataCodeIFEasy from "./mocks/model_raw_data_easy.json"
+import mockDataCodeIFHard from "./mocks/model_raw_data_hard.json"
 
 
 const LeaderboardTabs = () => {
@@ -32,24 +35,29 @@ const LeaderboardTabs = () => {
     // console.log(activeTab);
     switch (activeTab) {
       case 'tab1':
-        return <Leaderboard theme={{ base: "light" }} args={mockDataGen} />;
+        return <Leaderboard theme={{ base: "light" }} args={mockDataCodeIF} type='full'/>;
       case 'tab2':
-        return <Leaderboard theme={{ base: "light" }} args={mockDataRep} />;
+        return <Leaderboard theme={{ base: "light" }} args={mockDataCodeIFEasy} type='easy'/>;
       case 'tab3':
-        return <Leaderboard theme={{ base: "light" }} args={mockDataTest} />;
-      case 'tab4':
-        return <Leaderboard theme={{ base: "light" }} args={mockDataExec} />;
-      default:
+        return <Leaderboard theme={{ base: "light" }} args={mockDataCodeIFHard} type='hard'/>;
+      // case 'tab2':
+      //   return <Leaderboard theme={{ base: "light" }} args={mockDataRep} />;
+      // case 'tab3':
+      //   return <Leaderboard theme={{ base: "light" }} args={mockDataTest} />;
+      // case 'tab4':
+      //   return <Leaderboard theme={{ base: "light" }} args={mockDataExec} />;
+      // default:
         return <div>Select a tab</div>;
     }
   };
   return (
     <div className="tabs-container">
       <ul className={`tabs ${isMobile ? 'mobile' : ''}`}>
-        <li className={activeTab === 'tab1' ? 'is-active' : ''} onClick={() => setActiveTab('tab1')}><a>Code Generation111</a></li>
-        <li className={activeTab === 'tab2' ? 'is-active' : ''} onClick={() => setActiveTab('tab2')}><a>Self Repair</a></li>
-        <li className={activeTab === 'tab3' ? 'is-active' : ''} onClick={() => setActiveTab('tab3')}><a>Test11 Output Prediction</a></li>
-        <li className={activeTab === 'tab4' ? 'is-active' : ''} onClick={() => setActiveTab('tab4')}><a>Code Execution</a></li>
+        <li className={activeTab === 'tab1' ? 'is-active' : ''} onClick={() => setActiveTab('tab1')}><a>Full Set</a></li>
+        <li className={activeTab === 'tab2' ? 'is-active' : ''} onClick={() => setActiveTab('tab2')}><a>Easy Set</a></li>
+        <li className={activeTab === 'tab3' ? 'is-active' : ''} onClick={() => setActiveTab('tab3')}><a>Hard Set</a></li>
+        {/* <li className={activeTab === 'tab3' ? 'is-active' : ''} onClick={() => setActiveTab('tab3')}><a>Test11 Output Prediction</a></li>
+        <li className={activeTab === 'tab4' ? 'is-active' : ''} onClick={() => setActiveTab('tab4')}><a>Code Execution</a></li> */}
       </ul>
       <div className="tab-content">
         {renderLeaderboard()}
@@ -67,23 +75,22 @@ ReactDOM.render(
           <div className="columns is-centered">
             <div className="column has-text-centered">
               <h1 className="title is-1 publication-title">
-                LiveCodeBench: Holistic and Contamination Free Evaluation of
-                Large Language Models for Code
+              CodeIF: Benchmarking the Instruction-Following Capabilities of Large Language Models for Code Generation
               </h1>
               <div className="column has-text-centered">
                 <div className="publication-links">
                   <span className="link-block">
-                    <a href="https://arxiv.org/abs/2403.07974"
+                    <a href="https://github.com/lin-rany/codeIF"
                       className="external-link button is-normal is-rounded is-dark">
                       <span className="icon">
                         <i className="fas fa-file-pdf"></i>
                       </span>
-                      <span>Paper</span>
+                      <span>Paper TODO</span>
                     </a>
                   </span>
 
                   <span className="link-block">
-                    <a href="https://github.com/LiveCodeBench/LiveCodeBench"
+                    <a href="https://github.com/lin-rany/codeIF"
                       className="external-link button is-normal is-rounded is-dark">
                       <span className="icon">
                         <i className="fab fa-github"></i>
@@ -93,7 +100,7 @@ ReactDOM.render(
                   </span>
 
                   <span className="link-block">
-                    <a href="https://huggingface.co/livecodebench/"
+                    <a href="https://huggingface.co/datasets/linrany/CodeIF"
                       className="external-link button is-normal is-rounded is-dark">
                       <span className="icon">
                         <i className="far fa-images"></i>
@@ -104,7 +111,7 @@ ReactDOM.render(
 
                   <span className="link-block">
                     <a
-                      href="https://livecodebench.github.io/"
+                      href="https://lin-rany.github.io/codeif.github.io/"
                       className="external-link button is-normal is-rounded is-dark"
                     >
                       <span className="icon">
@@ -121,7 +128,7 @@ ReactDOM.render(
               </div>
 
 
-              <section className="section">
+              {/* <section className="section">
                 <div className="container is-max-desktop">
                   <div className="columns is-centered has-text-centered">
                     <div className="column is-four-fifths">
@@ -138,7 +145,7 @@ ReactDOM.render(
                     </div>
                   </div>
                 </div>
-              </section>
+              </section> */}
 
 
 
