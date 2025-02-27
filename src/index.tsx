@@ -80,12 +80,12 @@ ReactDOM.render(
               <div className="column has-text-centered">
                 <div className="publication-links">
                   <span className="link-block">
-                    <a href="https://github.com/lin-rany/codeIF"
+                    <a href="https://arxiv.org/abs/2502.19166"
                       className="external-link button is-normal is-rounded is-dark">
                       <span className="icon">
                         <i className="fas fa-file-pdf"></i>
                       </span>
-                      <span>Paper TODO</span>
+                      <span>Paper</span>
                     </a>
                   </span>
 
