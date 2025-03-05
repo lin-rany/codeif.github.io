@@ -162,7 +162,7 @@
     </div>
   </section>
 
-  <section class="section">
+  <!-- <section class="section">
     <div class="container is-max-desktop">
       <div class="columns is-centered has-text-centered">
         <div class="column is-four-fifths">
@@ -194,7 +194,7 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> -->
 
   <!-- <section class="section">
     <div class="container is-max-desktop">
@@ -235,39 +235,27 @@
     </div>
   </section> -->
 
-  <!-- <section class="section">
+  <section class="section">
     <div class="container is-max-desktop">
       <div class="columns is-centered has-text-centered">
         <div class="column is-four-fifths">
-          <h2 class="title is-3">Potential Overfitting in HumanEval</h2>
+          <h2 class="title is-3">Data Pipeline</h2>
           <div class="content has-text-justified">
             <div class="columns is-centered">
-              <img src="./images/lcb_vs_he.png" alt="HumanEval Overfitting" class="teaser-image center" width="80%"
+              <img src="./images/codeIF_pipeline.pdf" alt="HumanEval Overfitting" class="teaser-image center" width="80%"
                 height="80%" />
             </div>
             <p>
-              We also find that models that perform well on <span class="dnerf">HumanEval</span> might be overfitting on
-              the benchmark. Particularly, the models are separated into two clusters depicted
-              by the green and red shaded region in the right scatterplot. The models in the green region perform
-              similarly on
-              <span class="dnerf">HumanEval</span> and <span class="dnerf">LCB-Easy</span>, while the models in the red
-              region
-              perform well on <span class="dnerf">HumanEval</span> but lag behind on <span
-                class="dnerf">LCB-Easy</span>.
-              For instance, <span class="dnerf">DS-Ins-1.3B</span> model outperforms <span
-                class="dnerf">Gemini-Pro</span> and <span class="dnerf">Claude-Ins-1</span> but performs considerably
-              worse on <span class="dnerf">LCB-Easy</span>.
-              Interestingly, the models in the red region are mostly fine-tuned variants of open access models. On the
-              other hand, base models and most of the closed api-access models lie in the green region. This highlights
-              a potential lack of diverse fine-tuning data being employed by the open source community and the need for
-              optimizing models for a broader set of code-related tasks.
+              The CodeIF framework, illustrated in Figure, is meticulously crafted to enhance code generation by leveraging constraint instructions derived from real-world coding tasks. This process involves a methodical collection and refinement of constraints, integral for ensuring the relevance and applicability to practical scenarios.
+
+              By integrating these constraint instructions with advanced language models (LLMs) and a rigorous human review process, CodeIF succeeds in constructing a robust and high-quality evaluation dataset. This dataset not only benchmarks the performance of LLMs in generating code but also fosters the development of more intelligent, understanding, and contextually aware coding assistants. The assembly of the dataset follows a structured protocol, ensuring the inclusion of diverse programming tasks and scenarios, thereby broadening the framework's applicability and effectiveness across various coding environments and challenges.
             </p>
           </div>
         </div>
       </div>
 
     </div>
-  </section> -->
+  </section>
 
   <!-- <section class="section">
     <div class="container is-max-desktop">
